@@ -1,4 +1,4 @@
-UrlShortener
-============
+vertx-project-template
+======================
 
-URL Shortener application for Vertx Env.
+template project for Vert.x

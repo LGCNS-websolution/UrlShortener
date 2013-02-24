@@ -1,0 +1,68 @@
+subprojects {
+	apply plugin: 'java'
+	apply plugin: 'eclipse'
+	
+	sourceCompatibility = '1.7'
+	targetCompatibility = '1.7'
+	version = '1.2'
+	
+	compileJava.options.encoding = 'UTF-8'
+	javadoc.options.encoding = 'UTF-8'
+
+	repositories {
+		mavenCentral()
+	}
+	configurations {
+		provided
+	}
+	sourceSets {
+		main {
+			compileClasspath = compileClasspath + configurations.provided
+		}
+	}
+	eclipse {
+		classpath {
+			plusConfigurations += configurations.provided
+		}
+	}
+
+	dependencies {
+		provided "org.vert-x:vertx-core:$vertxVersion"
+		provided "org.vert-x:vertx-platform:$vertxVersion"
+	}
+}
+
+project(':app'){
+	jar.enabled = true
+	
+	dependencies {
+	}
+
+	task dist( type:Copy, dependsOn: 'jar' ) {
+		description = "assemble classes and copy jar to /lib"
+
+		into "../../lib"
+		from 'build/libs'
+	}
+}
+
+configure(subprojects.findAll {it.name.startsWith('mod-')}){
+	jar.enabled = false
+	
+	dependencies {
+	}
+
+	task dist( type:Copy, dependsOn: 'classes' ) {
+		description = "copy vertx module to /mods "
+
+		delete "../../mods/$modulename-v$version"
+
+		into "../../mods/$modulename-v$version"
+		from 'build/classes/main'
+		from 'src/main/conf'
+		into( 'lib' ) {
+			from configurations.compile
+		}
+	}
+}
+

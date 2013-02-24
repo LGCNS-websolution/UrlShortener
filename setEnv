@@ -1,0 +1,11 @@
+#!/bin/bash
+
+APP_HOME="`pwd -P`"
+APP_MODS="$APP_HOME/mods"
+
+export VERTX_HOME=$APP_HOME/bin/vertx
+export VERTX_MODS=$APP_MODS
+export PATH=${PATH}:${VERTX_HOME}/bin
+
+
+
