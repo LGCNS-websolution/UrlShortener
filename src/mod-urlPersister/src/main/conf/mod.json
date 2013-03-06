@@ -1,4 +1,4 @@
 {
-  "main": "io.stalk.mods.url.UrlShortenerPersister",
+  "main": "lgcns.websol.mod.MongoPersister",
   "worker": true
 }
